@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+var fs = require('fs');
+var os = require('os');
+var sh = require('shelljs');
+var cwd = sh.pwd();
+var os = require('os');
+
+/*
+ * The first version assumes the following about the prompt file:
+ * - It is a textfile named prompts
+ * - It lies in the directory that you run the command in
+ * - Each prompt is a line in the textfile
+ */
+var promptsFile = cwd + '/prompts';
+fs.exists(promptsFile, function (exists) {
+    if (exists) {
+        var prompts = fs.readFileSync(promptsFile).toString().split(os.EOL)
+            .filter(function (prompt) {
+                return prompt;
+            });
+
+        var specificPrompt = Math.floor(Math.random() * (prompts.length));
+
+        console.log('Your random prompt is: ' + prompts[specificPrompt]);
+    } else {
+        console.log('Prompt file "' + promptsFile + '" does not exist!');
+    }
+});

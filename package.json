@@ -1,0 +1,26 @@
+{
+  "name": "promptjs",
+  "version": "0.1.0",
+  "description": "Random prompt for writing, based on textfile",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Melindrea/promptjs.git"
+  },
+  "keywords": [
+    "writing",
+    "prompt"
+  ],
+  "author": "Marie Hogebrandt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Melindrea/promptjs/issues"
+  },
+  "homepage": "https://github.com/Melindrea/promptjs",
+  "dependencies": {
+    "shelljs": "^0.3.0"
+  }
+}
