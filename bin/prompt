@@ -19,22 +19,14 @@ var shouldUpdate = (argv._.indexOf('update') > -1);
 
 fs.exists(promptsFile, function (exists) {
     if (exists) {
-        var prompts = fs.readFileSync(promptsFile).toString().split(os.EOL)
-            .filter(function (prompt) {
-                return prompt;
-            });
+        var prompts = readFile();
 
         if (prompts.length > 0) {
             var specificPrompt = Math.floor(Math.random() * (prompts.length));
             console.log('Your random prompt is: ' + prompts[specificPrompt]);
 
             if (shouldUpdate) {
-                prompts.splice(specificPrompt, 1);
-                fs.writeFile(promptsFile, prompts.join(os.EOL), function (err) {
-                    if (err) {
-                        throw err;
-                    }
-                });
+                updateFile(prompts);
             }
         } else {
             console.log('There are no more prompts. You have reached the end of prompts.');
@@ -43,3 +35,23 @@ fs.exists(promptsFile, function (exists) {
         console.log('Prompt file "' + promptsFile + '" does not exist!');
     }
 });
+
+var readFile = function () {
+    var prompts;
+    prompts = fs.readFileSync(promptsFile).toString().split(os.EOL)
+        .filter(function (prompt) {
+            return prompt;
+        }
+    );
+
+    return prompts;
+};
+
+var updateFile = function (prompts) {
+    prompts.splice(specificPrompt, 1);
+    fs.writeFile(promptsFile, prompts.join(os.EOL), function (err) {
+        if (err) {
+            throw err;
+        }
+    });
+};
