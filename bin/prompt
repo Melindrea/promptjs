@@ -15,6 +15,7 @@ var argv = require('minimist')(process.argv.slice(2));
  * - Each prompt is a line in the textfile
  */
 var promptsFile = (argv.hasOwnProperty('file')) ? argv.file : cwd + '/prompts';
+var shouldUpdate = (argv._.indexOf('update') > -1);
 
 fs.exists(promptsFile, function (exists) {
     if (exists) {
@@ -26,6 +27,15 @@ fs.exists(promptsFile, function (exists) {
         if (prompts.length > 0) {
             var specificPrompt = Math.floor(Math.random() * (prompts.length));
             console.log('Your random prompt is: ' + prompts[specificPrompt]);
+
+            if (shouldUpdate) {
+                prompts.splice(specificPrompt, 1);
+                fs.writeFile(promptsFile, prompts.join(os.EOL), function (err) {
+                    if (err) {
+                        throw err;
+                    }
+                });
+            }
         } else {
             console.log('There are no more prompts. You have reached the end of prompts.');
         }
