@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/Melindrea/promptjs",
   "dependencies": {
+    "minimist": "^1.1.0",
     "shelljs": "^0.3.0"
   }
 }

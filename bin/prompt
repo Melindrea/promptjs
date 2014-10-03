@@ -5,13 +5,17 @@ var sh = require('shelljs');
 var cwd = sh.pwd();
 var os = require('os');
 
+var argv = require('minimist')(process.argv.slice(2));
+
 /*
  * The first version assumes the following about the prompt file:
- * - It is a textfile named prompts
- * - It lies in the directory that you run the command in
+ * - If the option "file" is used, that file is used, otherwise:
+ *     - It is a textfile named prompts
+ *     - It lies in the directory that you run the command in
  * - Each prompt is a line in the textfile
  */
-var promptsFile = cwd + '/prompts';
+var promptsFile = (argv.hasOwnProperty('file')) ? argv.file : cwd + '/prompts';
+
 fs.exists(promptsFile, function (exists) {
     if (exists) {
         var prompts = fs.readFileSync(promptsFile).toString().split(os.EOL)
@@ -19,9 +23,12 @@ fs.exists(promptsFile, function (exists) {
                 return prompt;
             });
 
-        var specificPrompt = Math.floor(Math.random() * (prompts.length));
-
-        console.log('Your random prompt is: ' + prompts[specificPrompt]);
+        if (prompts.length > 0) {
+            var specificPrompt = Math.floor(Math.random() * (prompts.length));
+            console.log('Your random prompt is: ' + prompts[specificPrompt]);
+        } else {
+            console.log('There are no more prompts. You have reached the end of prompts.');
+        }
     } else {
         console.log('Prompt file "' + promptsFile + '" does not exist!');
     }
